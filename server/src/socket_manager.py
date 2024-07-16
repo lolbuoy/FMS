@@ -15,6 +15,16 @@ def on_connect():
     socketio.emit("redis_update", current_full_data)
 
 
+@socketio.on("arm")
+def on_arm(flight_name):
+    print(flight_name)
+    print("\nARMING: %s\n"%(flight_name,))
+
+@socketio.on("disarm")
+def on_disarm(flight_name):
+    print(flight_name)
+    print("\nDISARMING: %s\n"%(flight_name,))
+
 def send_event(data):
     print(data)
     socketio.emit("redis_update", data, include_self=True)

@@ -1,10 +1,13 @@
 from flask import Flask
 from flask_socketio import SocketIO
+from flask_cors import CORS
 import logging
 
 app = Flask(__name__)
 app.config.from_object("config.Config")
 socketio = SocketIO(app, cors_allowed_origins="*")
+
+CORS(app)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

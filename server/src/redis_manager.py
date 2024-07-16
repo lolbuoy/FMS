@@ -8,6 +8,7 @@ def get_redis_data():
     flights = redis_client.keys()
     full_flight_data = {}
     for flight_id in flights:
-        full_flight_data[flight_id] = redis_client.get(flight_id)
+        print(flight_id)
+        full_flight_data[flight_id] = redis_client.hgetall(flight_id)
 
     return full_flight_data
