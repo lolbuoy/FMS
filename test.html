@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+			integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+			crossorigin="anonymous"
+		></script>
+		<script type="text/javascript" charset="utf-8">
+			var socket = io("http://100.75.51.60:4010/")
+			socket.on("connect", function () {
+				console.log("CONNECTED TO WEBSOCKET")
+			})
+			socket.on("redis_update", (data) => {
+				console.log("RECEIVED REDIS_UPDATE:")
+				console.log(data)
+			})
+			socket.on("active_flights", (data) => {
+				console.log("RECEIVED ACTIVE_FLIGHTS:")
+				console.log(data)
+			})
+			socket.on("command_confirmation", (data) => {
+				console.log("RECEIVED COMMAND_CONFIRMATION:")
+				console.log(data)
+			})
+			socket.on("supabase_changed", () => {
+				console.log("RECEIVED SUPABASE CHANGED")
+				;(async () => {
+					const res = await fetch("http://100.75.51.60:4010/get_supabase_data")
+					if (res.ok) {
+						console.log("SUPABASE DATA:")
+						console.log(await res.json())
+					} else {
+						console.log("ERROR")
+						console.log(res)
+					}
+				})()
+			})
+			window.socket = socket
+		</script>
+	</head>
+	<body>
+		<button onclick="on_arm()">Arm</button>
+		<button onclick="on_disarm()">Disarm</button>
+		<button onclick="on_get_active()">Get Active Flights</button>
+		<script>
+			function on_arm() {
+				console.log("on_arm")
+				window.socket.emit("command_arm", "Bullet_ECHO")
+			}
+			function on_disarm() {
+				console.log("on_disarm")
+				window.socket.emit("command_disarm", "Bullet_ECHO")
+			}
+			function on_get_active() {
+				console.log("on_redis")
+				window.socket.emit("get_active_flights", "Bullet_ECHO")
+			}
+		</script>
+	</body>
+</html>

@@ -1,12 +1,11 @@
-from app import socketio, app
+from app import socketio, app, send_event
 import logging
 from redis_manager import get_redis_data
-from socket_manager import send_event
 
 def poll_redis(name, interval):
     # LOGGING
     logger = logging.getLogger(name)
-    logger.info("REDIS POLL STARTING: POLLING EVERY %s SECONDS" % (interval,))
+    # logger.info("REDIS POLL STARTING: POLLING EVERY %s SECONDS" % (interval,))
 
     # POLLING
     while True:
@@ -16,10 +15,10 @@ def poll_redis(name, interval):
         flight_count = len(full_flight_data.keys())
 
         # LOG
-        logger.info("Polled redis, %s flights found" % (flight_count,))
+        # logger.info("Polled redis, %s flights found" % (flight_count,))
 
         # W.S
-        send_event(full_flight_data)
+        # send_event(full_flight_data)
 
         # POLL
         socketio.sleep(interval)

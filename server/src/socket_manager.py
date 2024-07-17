@@ -1,5 +1,6 @@
 from app import socketio
 from redis_manager import get_redis_data
+from mqtt_manager import publish_command
 
 # SOCKET
 @socketio.on("redis_update")
@@ -14,17 +15,14 @@ def on_connect():
     current_full_data = get_redis_data()
     socketio.emit("redis_update", current_full_data)
 
+@socketio.on("get_active_flights")
+def on_active_flights(_):
+    socketio.emit("active_flights", get_redis_data())
 
-@socketio.on("arm")
-def on_arm(flight_name):
-    print(flight_name)
-    print("\nARMING: %s\n"%(flight_name,))
+@socketio.on("command_arm")
+def on_arm(drone_id):
+    publish_command(drone_id, "arm")
 
-@socketio.on("disarm")
-def on_disarm(flight_name):
-    print(flight_name)
-    print("\nDISARMING: %s\n"%(flight_name,))
-
-def send_event(data):
-    print(data)
-    socketio.emit("redis_update", data, include_self=True)
+@socketio.on("command_disarm")
+def on_disarm(drone_id):
+    publish_command(drone_id, "disarm")

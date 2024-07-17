@@ -13,3 +13,5 @@ class Config:
     REDIS_POLL_INTERVAL = int(config.get("REDIS_POLL_INTERVAL", 5))
     SUPABASE_URL = config.get("SUPABASE_URL", "")
     SUPABASE_SERVICE_KEY = config.get("SUPABASE_SERVICE_KEY", "")
+    MQTT_BROKER_URL = config.get("MQTT_BROKER_URL", "")
+    MQTT_BROKER_PORT = int(config.get("MQTT_BROKER_PORT", 1883))
