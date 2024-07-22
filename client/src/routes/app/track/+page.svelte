@@ -204,6 +204,10 @@
 		console.log(flights);
 		currentFlight = flights[drone_id];
 	}
+
+	$: if (flights && currentFlight != null && currentFlight.drone_id) {
+		currentFlight = flights[currentFlight.drone_id]
+	}
 </script>
 
 <!-- <style>
