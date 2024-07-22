@@ -5,6 +5,7 @@ from flask import Flask
 from flask_socketio import SocketIO
 from flask_cors import CORS
 import logging
+import time
 import threading
 
 app = Flask(__name__)
@@ -12,9 +13,12 @@ app.config.from_object("config.Config")
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 
-def send_event(data, type="redis_update"):
+def send_event(data, type="realtime_data"):
     print(data)
     socketio.emit(type, data, include_self=True)
+
+    # time.sleep(10)
+    # print("After sleep!")
 
 
 CORS(app)

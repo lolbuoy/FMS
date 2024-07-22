@@ -14,6 +14,8 @@ client.publish("test", "test1")
 
 
 def parse_mqtt_message_payload(message):
+    if message == "":
+        return "{}"
     return str(message.payload.decode("utf-8"))
 
 
@@ -53,6 +55,10 @@ def on_command_confirmation(topic, status):
 
     confirmation_to_send = status
     confirmation_to_send["drone_id"] = drone_id
+    if confirmation_to_send["status"] == 0:
+        confirmation_to_send["status"] = True
+    else:
+        confirmation_to_send["status"] = False
 
     print("CONFIRMATION RECEIVED:", drone_id)
     print(confirmation_to_send)

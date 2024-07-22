@@ -2,3 +2,4 @@
 **/*.conf
 server/lib
 **/__pycache__
+**/node_modules

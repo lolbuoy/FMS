@@ -14,12 +14,16 @@
 			socket.on("connect", function () {
 				console.log("CONNECTED TO WEBSOCKET")
 			})
-			socket.on("redis_update", (data) => {
-				console.log("RECEIVED REDIS_UPDATE:")
+			socket.on("realtime_data", (data) => {
+				console.log("RECEIVED REALTIME_DATA:")
 				console.log(data)
 			})
 			socket.on("active_flights", (data) => {
 				console.log("RECEIVED ACTIVE_FLIGHTS:")
+				console.log(data)
+			})
+			socket.on("drone_status", (data) => {
+				console.log("RECEIVED DRONE_STATUS:")
 				console.log(data)
 			})
 			socket.on("command_confirmation", (data) => {
@@ -46,6 +50,7 @@
 		<button onclick="on_arm()">Arm</button>
 		<button onclick="on_disarm()">Disarm</button>
 		<button onclick="on_get_active()">Get Active Flights</button>
+		<button onclick="on_get_drone()">Get Drone Status</button>
 		<script>
 			function on_arm() {
 				console.log("on_arm")
@@ -57,7 +62,11 @@
 			}
 			function on_get_active() {
 				console.log("on_redis")
-				window.socket.emit("get_active_flights", "Bullet_ECHO")
+				window.socket.emit("get_active_flights")
+			}
+			function on_get_drone() {
+				console.log("on_drone_status")
+				window.socket.emit("get_drone_status")
 			}
 		</script>
 	</body>
