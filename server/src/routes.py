@@ -3,7 +3,7 @@ import requests
 from app import app
 from config import Config
 from socket_manager import socketio
-from waypoint_to_latlongs import waypoint_to_latlongs
+from utils.waypoint_to_latlongs import waypoint_to_latlongs
 
 
 @app.route("/")

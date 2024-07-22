@@ -1,7 +1,7 @@
 from app import socketio
 from redis_manager import get_redis_data
 from mqtt_manager import publish_command
-from calculate_state_from_redis import calculate_state_from_redis
+from utils.calculate_state_from_redis import calculate_state_from_redis
 
 
 # # SOCKET

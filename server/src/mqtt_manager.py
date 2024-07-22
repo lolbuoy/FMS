@@ -6,7 +6,8 @@ import paho.mqtt.client as mqtt
 from app import socketio, send_event
 from config import Config
 from redis_manager import save_active_status, save_last_received_message
-from drone_commands import DRONE_COMMANDS
+from utils.drone_commands import DRONE_COMMANDS
+from utils.mavlink_to_json import mavlink_to_json
 
 client = mqtt.Client(protocol=mqtt.MQTTv5)
 client.connect(host=Config.MQTT_BROKER_URL, port=Config.MQTT_BROKER_PORT)
@@ -26,8 +27,7 @@ def on_drone_data(drone_data_topic, drone_data):
         print("Data for drone_id", drone_id)
         print(drone_data)
 
-        drone_data_to_send = {"drone_id": drone_id}
-        drone_data_to_send.update(drone_data)
+        drone_data_to_send = mavlink_to_json(drone_data, drone_id)
 
         send_event(drone_data_to_send)
 
