@@ -13,7 +13,6 @@ MQTT_BROKER = "100.75.51.60"  # Replace with your MQTT broker
 MQTT_PORT = 1883
 global sysid 
 sysid = 0
-MQTT_TOPIC = f"setup/{sysid}/code_version"
 VEHICLE_CONNECTION_STRING = 'tcp:127.0.0.1:5762'  # Replace with your vehicle's connection string
 SCRIPT_PATH = os.path.join(REPO_PATH, "telem_stream.py")  # Path to the run.sh script inside the repository
 
@@ -83,7 +82,7 @@ def get_sysid_thismav(vehicle):
         try:
             sysid = vehicle.parameters['SYSID_THISMAV']
             print(f"SYSID_THISMAV = {sysid}")
-            MQTT_TOPIC = f"setup/{int(sysid)}/code_version"
+            MQTT_TOPIC = f"setup/{int(sysid)}/version"
             return sysid
         except KeyError:
             print("Parameter SYSID_THISMAV not found. Retrying...")
@@ -129,20 +128,19 @@ def main():
     # Clone the repository if it doesn't exist, or update it if it does
     if not clone_or_update_repo(REPO_URL, REPO_PATH):
         print("Exiting due to failure to clone or update the repository.")
-        return
 
     # Get repository version
     commit_hash, latest_tag = get_repo_version(REPO_PATH)
     
     if commit_hash is None:
         print("Failed to get repository version.")
-        return
+
 
     # Connect to the vehicle
     vehicle = connect_vehicle(VEHICLE_CONNECTION_STRING)
     if vehicle is None:
         print("Failed to connect to the vehicle. Exiting.")
-        return
+
 
     # Get SYSID_THISMAV
     sysid = get_sysid_thismav(vehicle)
