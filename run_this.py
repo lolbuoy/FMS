@@ -14,7 +14,7 @@ MQTT_PORT = 1883
 global sysid 
 sysid = 0
 VEHICLE_CONNECTION_STRING = 'tcp:127.0.0.1:5762'  # Replace with your vehicle's connection string
-SCRIPT_PATH = os.path.join(REPO_PATH, "telem_stream.py")  # Path to the run.sh script inside the repository
+SCRIPT_PATH = os.path.join(REPO_PATH, "run.sh")  # Path to the run.sh script inside the repository
 
 def clone_or_update_repo(repo_url, repo_path):
     if not os.path.exists(repo_path):
@@ -115,7 +115,7 @@ def run_shell_script(script_path):
     print(f"Executing Python script: {script_path}")
     try:
         # Use the appropriate command to run the Python script
-        result = subprocess.run(["python", script_path], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        result = subprocess.run(["bash", script_path], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         
         print(f"Python script executed successfully. Output:\n{result.stdout.decode('utf-8')}")
     except subprocess.CalledProcessError as e:
