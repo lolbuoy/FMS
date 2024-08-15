@@ -103,9 +103,8 @@ def on_connect(client, userdata, flags, rc):
 
 def publish_version_and_sysid(client, commit_hash, latest_tag, sysid):
     data = {
-        "commit_hash": commit_hash,
+        "version": commit_hash,
         "latest_tag": latest_tag,
-        "sysid": sysid,
         "timestamp": int(time.time() * 1000)
     }
     json_data = json.dumps(data)
